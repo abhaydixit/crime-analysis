@@ -21,26 +21,58 @@ def format_time():
     pass
 
 
+def get_shift():
+    pass
+
+
 def get_austin_df(dir_path):
-    aus = pd.read_csv(dir_path + 'Austin.csv',
-                      usecols=["Highest Offense Description", "Occurred Date", "Address", "Latitude", "Longitude"])
-    aus[["day", "mm", "year"]] = aus["Occurred Date"].str.split("/", expand=True)
-    return aus
+    austin = pd.read_csv(dir_path + 'Austin.csv',
+                      usecols=["Highest Offense Description", "Occurred Date Time", "Address", "Latitude", "Longitude"])
+
+    # Split Date and Time
+    austin[["Occurred Date", "Occurred Time"]] = austin["Occurred Date Time"].str.split("/", expand=True)
+
+    # Split Date into 3 seperate columns
+    austin[["day", "month", "year"]] = austin["Occurred Date"].str.split("/", expand=True)
+
+    # Process Time to get shift. Call get_shift function
+    # <Add here>
+
+    # Delete Columns
+    del austin["Occurred Date Time"]
+
+    return austin
 
 
 def get_chicago_df(dir_path):
+    # Split Date and Time
+    # Split Date into 3 seperate columns
+    # Process Time to get shift. Call get_shift function
+    # Delete Columns
     pass
 
 
 def get_baltimore_df(dir_path):
+    # Split Date and Time
+    # Split Date into 3 seperate columns
+    # Process Time to get shift. Call get_shift function
+    # Delete Columns
     pass
 
 
 def get_la_df(dir_path):
+    # Split Date and Time
+    # Split Date into 3 seperate columns
+    # Process Time to get shift. Call get_shift function
+    # Delete Columns
     pass
 
 
 def get_rochester_df(dir_path):
+    # Split Date and Time
+    # Split Date into 3 seperate columns
+    # Process Time to get shift. Call get_shift function
+    # Delete Columns
     pass
 
 
