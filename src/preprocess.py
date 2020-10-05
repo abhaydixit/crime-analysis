@@ -32,7 +32,7 @@ def get_austin_df(dir_path):
     # Split Date and Time
     austin[["Occurred Date", "Occurred Time"]] = austin["Occurred Date Time"].str.split("/", expand=True)
 
-    # Split Date into 3 seperate columns
+    # Split Date into 3 separate columns
     austin[["day", "month", "year"]] = austin["Occurred Date"].str.split("/", expand=True)
 
     # Process Time to get shift. Call get_shift function
@@ -46,7 +46,7 @@ def get_austin_df(dir_path):
 
 def get_chicago_df(dir_path):
     # Split Date and Time
-    # Split Date into 3 seperate columns
+    # Split Date into 3 separate columns
     # Process Time to get shift. Call get_shift function
     # Delete Columns
     pass
@@ -54,7 +54,7 @@ def get_chicago_df(dir_path):
 
 def get_baltimore_df(dir_path):
     # Split Date and Time
-    # Split Date into 3 seperate columns
+    # Split Date into 3 separate columns
     # Process Time to get shift. Call get_shift function
     # Delete Columns
     pass
@@ -62,7 +62,7 @@ def get_baltimore_df(dir_path):
 
 def get_la_df(dir_path):
     # Split Date and Time
-    # Split Date into 3 seperate columns
+    # Split Date into 3 separate columns
     # Process Time to get shift. Call get_shift function
     # Delete Columns
     pass
