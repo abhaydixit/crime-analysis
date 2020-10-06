@@ -38,11 +38,12 @@ def change_datatypes(df, column_name):
 def clean_address(df, column_name):
     # df[col] = df[col].str.replace('\\d+', '').str.strip()
     df[column_name].replace(
-        to_replace=[" N ", " E ", " S ", " W ", " roa$| ROA$", " rd$| RD$", " ave$| AVE$", " stree$| STREE$", " ln|LN",
-                    " boulev$| BOULEV$", " blvd$| BLVD$", " blvd | BLVD ", " dr$| DR$", " parkwa$| PARKWA$",
-                    " st$| ST$"],
-        value=[" NORTH ", " EAST ", " SOUTH ", " WEST ", " ROAD", " ROAD", " AVENUE", " STREET", " LINE",
-               " BOULEVARD", " BOULEVARD", " BOULEVARD ", " DRIVE", " PARKWAY", " STREET"], regex=True, inplace=True)
+        to_replace=[" N ", "^N ", " E ", "^E", " S ", "^S", " W ", "^W"," roa$| ROA$", " rd$| RD$", " ave$| AVE$",
+                    " stree$| STREE$", " ln|LN", " boulev$| BOULEV$", " blvd$| BLVD$", " blvd | BLVD ", " dr$| DR$",
+                    " parkwa$| PARKWA$", " st$| ST$"],
+        value=[" NORTH ", "NORTH ",  " EAST ", "EAST ", " SOUTH ", "SOUTH ", " WEST ", "WEST ", " ROAD", " ROAD",
+               " AVENUE", " STREET", " LINE", " BOULEVARD", " BOULEVARD", " BOULEVARD ", " DRIVE", " PARKWAY",
+               " STREET"], regex=True, inplace=True)
 
 
 def delete_columns(df, col_list):
@@ -251,7 +252,7 @@ def get_mongo_connection(mongo_params):
 
 def insert_df_to_mongo(mongo_collection, dataframe, city_name):
     dataframe['city'] = city_name
-    dataframe.reset_index(inplace=True)
+    # dataframe.reset_index(inplace=True)
 
     for i in range(0, len(dataframe.index), 1000):
         new_df = dataframe[i: i + 1000]
@@ -273,6 +274,7 @@ def main():
     start = time.time()
     config_file_path = '../config'
     dir_path = get_dataset_path(config_file_path + '/path.json')
+
     # Get Dataframes
     aus, balt, chicago, la, roch = get_df(dir_path)
 
