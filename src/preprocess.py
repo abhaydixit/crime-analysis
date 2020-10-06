@@ -5,6 +5,8 @@ __author__ = "Pranjal Pandey"
 import pandas as pd
 import numpy as np
 import json
+import sys
+from pymongo import MongoClient
 
 pd.options.mode.chained_assignment = None
 
@@ -202,13 +204,24 @@ def get_mongo_parameters(mongo_file):
         )
 
 
+def get_mongo_connection_details(mongo_params):
+    try:
+        connection = MongoClient("mongodb://" + mongo_params['host'] + ":" + str(mongo_params['port']))
+        print("Connected to MongoDB successfully")
+    except:
+        print("Could not connect to MongoDB. Please check the connection parameters")
+        sys.exit(-1)
+    return connection, mongo_params['database']
+
+
 def main():
     config_file_path = '../config'
     dir_path = get_dataset_path(config_file_path + '/path.json')
     aus, balt, chicago, la, roch = get_df(dir_path)
 
-    mongo_connection_details = get_mongo_parameters(config_file_path + '/connection.json')
-    print(mongo_connection_details)
+    mongo_connection_params = get_mongo_parameters(config_file_path + '/connection.json')
+    print(mongo_connection_params)
+    mongo_connection, database = get_mongo_connection_details(mongo_connection_params)
 
 
 if __name__ == "__main__":
