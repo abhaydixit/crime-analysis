@@ -6,21 +6,17 @@ __author__ = "Pranjal Pandey"
 import sys
 import pandas as pd
 import numpy as np
+pd.options.mode.chained_assignment = None
 
 
 def get_df(dir_path):
-
     austin_df = get_austin_df(dir_path)
     baltimore_df = get_baltimore_df(dir_path)
-    chicago_df = get_chicago_df(dir_path)
+    # chicago_df = get_chicago_df(dir_path)
     la_df = get_la_df(dir_path)
     rochester_df = get_rochester_df(dir_path)
 
-    return austin_df, baltimore_df, chicago_df, la_df, rochester_df
-
-
-def format_date():
-    pass
+    return austin_df, baltimore_df, la_df, rochester_df
 
 
 def format_time():
@@ -37,25 +33,16 @@ def clean_address(df, col):
                                 " boulev$| BOULEV$", " blvd$| BLVD$", " blvd | BLVD ",  " dr$| DR$", " parkwa$| PARKWA$", " st$| ST$"],
                                 value=[" NORTH ", " EAST ", " SOUTH ", " WEST ", " ROAD", " ROAD", " AVENUE", " STREET", " LINE",
                                 " BOULEVARD", " BOULEVARD", " BOULEVARD ", " DRIVE", " PARKWAY", " STREET"], regex=True, inplace=True)
-    return df
+    # return df
 
 
 def delete_columns(df, col_list):
     df.drop(col_list, axis=1, inplace=True)
-    return df
-
-
-
-# def my_split(row):
-#     # print(row)
-#     values = str(row["Occurred Date Time"]).split()
-#     return pd.Series({
-#         'date': values[0] if len(values) == 2 else None,
-#         'time': values[1] if len(values) == 2 else None,
-#     })
+    # return df
 
 
 def get_austin_df(dir_path):
+
     austin = pd.read_csv(dir_path + 'Austin.csv', na_values=None,keep_default_na=False, skip_blank_lines=True,
                       usecols=["Highest Offense Description", "Occurred Date Time",  "Address", "Latitude", "Longitude"])
     print(austin.shape)
@@ -71,60 +58,118 @@ def get_austin_df(dir_path):
     austin['year'] = austin['year'].astype(np.int32)
     austin = austin[(austin['year'] > 2010)]
 
-
     # Process Time to get shift. Call get_shift function
     # <Add here>
 
     # Delete Columns
-    austin = delete_columns(austin, ['Occurred Date Time', 'date', 'am/pm'])
+
+    delete_columns(austin, ['Occurred Date Time', 'date', 'am/pm'])
 
     # Clean address
-    austin = clean_address(austin, "Address")
+    clean_address(austin, "Address")
 
-    print(austin["Address"])
-    print(austin)
+    print("Processed Austin data!")
 
     return austin
 
 
 def get_chicago_df(dir_path):
+    chicago = pd.read_csv(dir_path + 'Chicago.csv',
+                         usecols=["Date", "Occurred Date Time", "Address", "Latitude",
+                                  "Longitude"])
     # Split Date and Time
-    # Split Date into 3 seperate columns
+    # Split Date into 3 separate columns
     # Process Time to get shift. Call get_shift function
     # Delete Columns
     pass
 
 
 def get_baltimore_df(dir_path):
-    # Split Date and Time
-    # Split Date into 3 seperate columns
+    baltimore = pd.read_csv(dir_path + 'Baltimore.csv',
+                            usecols=["CrimeDate", "CrimeTime", "Location", "Description", "Weapon", "Latitude",
+                                     "Longitude"])
+
+    # Rename columns
+    baltimore.rename({'CrimeTime': 'time', 'Description': 'offense', 'Location': 'address'}, axis=1,
+                  inplace=True)
+
+    # Drop rows with NA values in CrimeDate
+    baltimore.dropna(subset=['CrimeDate'], inplace=True)
+
+    # Process Time
+    baltimore['time'] = baltimore['time'].str[:-2].str.replace(':', '').str.strip()
+
+    # Split Date into 3 separate columns
+    baltimore[["month", "day", "year"]] = baltimore["CrimeDate"].str.split("/", expand=True).astype(np.int32)
+    baltimore.drop(baltimore[baltimore['year'] < 2011].index, inplace=True)
+
     # Process Time to get shift. Call get_shift function
+
+    # Clean address
+    clean_address(baltimore, ["address"])
+
     # Delete Columns
-    pass
+    delete_columns(baltimore, ["CrimeDate"])
+
+    print("Processed Baltimore data!")
+    return baltimore
 
 
 def get_la_df(dir_path):
-    # Split Date and Time
-    # Split Date into 3 seperate columns
+    lacity = pd.read_csv(dir_path + 'LACity.csv',
+                         usecols=["DATE OCC", "TIME OCC", "Crm Cd Desc", "Vict Age", "Vict Sex", "Vict Descent",
+                                  "Weapon Desc", "LOCATION", "LAT", "LON"])
+    # Rename columns
+    lacity.rename({'LON': 'longitude', 'LAT': 'latitude', 'Crm Cd Desc': 'offense', 'LOCATION': 'address'}, axis=1,
+                  inplace=True)
+
+    # Drop rows with NA values in Date Occurred
+    lacity.dropna(subset=['DATE OCC'], inplace=True)
+
+    # Split Date into 3 separate columns
+    lacity[["month", "day", "year"]] = lacity['DATE OCC'].str[:11].str.split("/", expand=True).astype(np.int32)
+    lacity.drop(lacity[lacity['year'] < 2011].index, inplace=True)
+
     # Process Time to get shift. Call get_shift function
+    clean_address(lacity, ["address"])
+
     # Delete Columns
-    pass
+    delete_columns(lacity, ["DATE OCC"])
+
+
+    print("Processed LA City data!")
+    return lacity
 
 
 def get_rochester_df(dir_path):
-    # Split Date and Time
-    # Split Date into 3 seperate columns
+    rochester = pd.read_csv(dir_path + 'Rochester.csv',
+                            usecols=["Geocode_Street", "OccurredFrom_Time", "OccurredFrom_Timestamp", "Statute_Text",
+                                     "Weapon_Description", "X", "Y"])
+    # Rename columns
+    rochester.rename({'X': 'longitude', 'Y': 'latitude', 'Statute_Text': 'offense', 'Weapon_Description': 'weapon',
+                      'Geocode_Street': 'address', "OccurredFrom_Time": 'time'}, axis=1, inplace=True)
+
+    # Split Date into 3 separate columns
+    rochester[["year", "month", "day"]] = rochester['OccurredFrom_Timestamp'].str[:11].str.split("/", expand=True).astype(np.int32)
+    rochester.drop(rochester[rochester['year'] < 2011].index, inplace=True)
+
     # Process Time to get shift. Call get_shift function
+    clean_address(rochester, ["address"])
+
     # Delete Columns
-    pass
+    delete_columns(rochester, ["OccurredFrom_Timestamp"])
+
+    print("Processed Rochester data!")
+    return rochester
 
 
 def main():
     # dir_path = sys.argv[1]
-    dir_path = "/Users/abhayrajendradixit/Documents/Assignments and Projects/Projects/Big Data Analytics/"
+    # dir_path = "/Users/abhayrajendradixit/Documents/Assignments and Projects/Projects/Big Data Analytics/"
+    dir_path = "../Datasets/"
 
-    aus = get_df(dir_path)
-    # aus, balt, chic, la, roch = get_df(dir_path)
+
+    aus, balt, la, roch = get_df(dir_path)
 
 
 if __name__ == "__main__":
