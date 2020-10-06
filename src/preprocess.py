@@ -4,6 +4,7 @@ __author__ = "Pranjal Pandey"
 
 import pandas as pd
 import numpy as np
+import json
 
 pd.options.mode.chained_assignment = None
 
@@ -183,12 +184,31 @@ def get_rochester_df(dir_path):
     return rochester
 
 
-def main():
-    # dir_path = sys.argv[1]
-    # dir_path = "/Users/abhayrajendradixit/Documents/Assignments and Projects/Projects/Big Data Analytics/"
-    dir_path = "../Datasets/"
+def get_dataset_path(file_path):
+    print("Reading datasets from", file_path)
+    with open(file_path, 'r') as f:
+        base_path = json.loads(f.read())
+        return str(base_path['base_path'])
 
+
+def get_mongo_parameters(mongo_file):
+    print('Getting mongo params from', mongo_file)
+    with open(mongo_file, 'r') as f:
+        connection_details = json.loads(f.read())
+        return dict(
+            host=connection_details['host'],
+            port=connection_details['port'],
+            database=connection_details['database']
+        )
+
+
+def main():
+    config_file_path = '../config'
+    dir_path = get_dataset_path(config_file_path + '/path.json')
     aus, balt, chicago, la, roch = get_df(dir_path)
+
+    mongo_connection_details = get_mongo_parameters(config_file_path + '/connection.json')
+    print(mongo_connection_details)
 
 
 if __name__ == "__main__":
