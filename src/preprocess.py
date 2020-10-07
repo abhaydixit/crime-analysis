@@ -7,9 +7,11 @@ import numpy as np
 import json
 import sys
 import time
+
 from pymongo import MongoClient
 
 pd.options.mode.chained_assignment = None
+pd.set_option('display.max_columns', None)
 
 
 def get_df(dir_path):
@@ -18,16 +20,39 @@ def get_df(dir_path):
     chicago_df = get_chicago_df(dir_path)
     la_df = get_la_df(dir_path)
     rochester_df = get_rochester_df(dir_path)
-
+    # return baltimore_df
     return austin_df, baltimore_df, la_df, chicago_df, rochester_df
 
 
-def format_time():
-    pass
+def format_time(df, column_name):
+    df[column_name] = df[column_name].astype(str)
+    df[column_name] = df[column_name].replace(to_replace=r'(AM|PM)', value=r' \1', regex=True)
+    df[column_name] = pd.to_datetime(df[column_name])
+    df[column_name] = df[column_name].apply(lambda x: x.strftime('%H:%M:%S'))
+    df[column_name] = pd.to_datetime(df[column_name], infer_datetime_format=True)
+    return df
 
 
-def get_shift():
-    pass
+def get_shift(df, column_name):
+    print("start")
+    df['hour'] = df[column_name].dt.hour
+    df['hour'] = df['hour'].astype('int32')
+    df['shift'] = df['hour'].apply(parse_values)
+    del df['hour']
+    return df
+
+
+
+def parse_values(x):
+    if 5 <= x < 12:
+        return 'Morning'
+    elif 12 <= x < 16:
+        return 'Noon'
+    elif 16 <= x < 20:
+        return 'Evening'
+    else:
+        return 'Night'
+
 
 
 def change_datatypes(df, column_name):
@@ -38,10 +63,10 @@ def change_datatypes(df, column_name):
 def clean_address(df, column_name):
     # df[col] = df[col].str.replace('\\d+', '').str.strip()
     df[column_name].replace(
-        to_replace=[" N ", "^N ", " E ", "^E", " S ", "^S", " W ", "^W"," roa$| ROA$", " rd$| RD$", " ave$| AVE$",
+        to_replace=[" N ", "^N ", " E ", "^E", " S ", "^S", " W ", "^W", " roa$| ROA$", " rd$| RD$", " ave$| AVE$",
                     " stree$| STREE$", " ln|LN", " boulev$| BOULEV$", " blvd$| BLVD$", " blvd | BLVD ", " dr$| DR$",
                     " parkwa$| PARKWA$", " st$| ST$"],
-        value=[" NORTH ", "NORTH ",  " EAST ", "EAST ", " SOUTH ", "SOUTH ", " WEST ", "WEST ", " ROAD", " ROAD",
+        value=[" NORTH ", "NORTH ", " EAST ", "EAST ", " SOUTH ", "SOUTH ", " WEST ", "WEST ", " ROAD", " ROAD",
                " AVENUE", " STREET", " LINE", " BOULEVARD", " BOULEVARD", " BOULEVARD ", " DRIVE", " PARKWAY",
                " STREET"], regex=True, inplace=True)
 
@@ -77,6 +102,8 @@ def get_austin_df(dir_path):
 
     # Process Time to get shift. Call get_shift function
     # <Add here>
+    austin = format_time(austin, 'time')
+    get_shift(austin, 'time')
 
     # Change data type of Lat and Long
     change_datatypes(austin, 'latitude')
@@ -88,6 +115,8 @@ def get_austin_df(dir_path):
     # Clean address
     clean_address(austin, "address")
 
+    austin.info()
+    print(austin.head())
     print("Processed Austin data!")
     return austin
 
@@ -116,6 +145,9 @@ def get_chicago_df(dir_path):
     change_datatypes(chicago, 'longitude')
 
     # Process Time to get shift. Call get_shift function
+    chicago = format_time(chicago, 'time')
+    chicago = get_shift(chicago, 'time')
+
     # Delete Columns
     delete_columns(chicago, ['Year', 'Date', 'date', 'am/pm'])
 
@@ -123,6 +155,8 @@ def get_chicago_df(dir_path):
     clean_address(chicago, "address")
 
     print("Processed Chicago data!")
+    chicago.info()
+    print(chicago.head())
     return chicago
 
 
@@ -139,7 +173,20 @@ def get_baltimore_df(dir_path):
     baltimore.dropna(subset=['CrimeDate'], inplace=True)
 
     # Process Time
-    baltimore['time'] = baltimore['time'].str[:-2].str.replace(':', '').str.strip()
+    baltimore['time'] = baltimore['time'].str.replace(':', '').str.strip()
+    # baltimore['time'] = baltimore['time'].replace([np.inf, -np.inf], np.nan)
+    # # baltimore['time'] = baltimore['time'].dropna()
+    # baltimore['time'] = pd.to_datetime(baltimore['time'], infer_datetime_format=True)
+    # baltimore['time'].fillna(value=pd.to_datetime('00:00:00'), inplace=True)
+    # a = baltimore['time'].isna().sum()
+    baltimore['time'] = baltimore['time'].astype(str)
+    baltimore['time'] = baltimore['time'].apply(lambda x: x.zfill(4) if len(x) < 4 else x)
+    baltimore['time'] = pd.to_datetime(baltimore['time'], format='%H%M%S')
+    baltimore['time'] = pd.to_datetime(baltimore['time'], infer_datetime_format=True)
+    # baltimore = get_shift(baltimore, 'time')
+
+
+
 
     # Split Date into 3 separate columns
     baltimore[["month", "day", "year"]] = baltimore["CrimeDate"].str.split("/", expand=True).astype(np.int32)
@@ -147,16 +194,22 @@ def get_baltimore_df(dir_path):
 
     # Process Time to get shift. Call get_shift function
 
+
+    baltimore = get_shift(baltimore, 'time')
+
+
     # Change data type of Lat and Long
     change_datatypes(baltimore, 'latitude')
     change_datatypes(baltimore, 'longitude')
 
     # Clean address
-    clean_address(baltimore, ["address"])
+    clean_address(baltimore, "address")
 
     # Delete Columns
     delete_columns(baltimore, ["CrimeDate"])
 
+    baltimore.info()
+    print(baltimore.head())
     print("Processed Baltimore data!")
     return baltimore
 
@@ -177,17 +230,25 @@ def get_la_df(dir_path):
     lacity.drop(lacity[lacity['year'] < 2011].index, inplace=True)
 
     # Process Time to get shift. Call get_shift function
+    lacity['time'] = lacity['time'].astype(str)
+    lacity['time'] = lacity['time'].apply(lambda x: x.zfill(4) if len(x) < 4 else x)
+    lacity['time'] = pd.to_datetime(lacity['time'], format='%H%M%S')
+    lacity['time'] = pd.to_datetime(lacity['time'], infer_datetime_format=True)
+    lacity = get_shift(lacity, 'time')
+
 
     # Change data type of Lat and Long
     change_datatypes(lacity, 'latitude')
     change_datatypes(lacity, 'longitude')
 
     # Clean address
-    clean_address(lacity, ["address"])
+    clean_address(lacity, "address")
 
     # Delete Columns
     delete_columns(lacity, ["DATE OCC"])
 
+    lacity.info()
+    print(lacity.head())
     print("Processed LA City data!")
     return lacity
 
@@ -207,17 +268,24 @@ def get_rochester_df(dir_path):
     rochester.drop(rochester[rochester['year'] < 2011].index, inplace=True)
 
     # Process Time to get shift. Call get_shift function
+    rochester['time'] = rochester['time'].astype(str)
+    rochester['time'] = rochester['time'].apply(lambda x: x.zfill(4) if len(x) < 4 else x)
+    rochester['time'] = pd.to_datetime(rochester['time'], format='%H%M%S')
+    rochester['time'] = pd.to_datetime(rochester['time'], infer_datetime_format=True)
+    rochester = get_shift(rochester, 'time')
 
     # Change data type of Lat and Long
     change_datatypes(rochester, 'latitude')
     change_datatypes(rochester, 'longitude')
 
     # Clean Address
-    clean_address(rochester, ["address"])
+    clean_address(rochester, "address")
 
     # Delete Columns
     delete_columns(rochester, ["OccurredFrom_Timestamp"])
 
+    rochester.info()
+    print(rochester.head())
     print("Processed Rochester data!")
     return rochester
 
