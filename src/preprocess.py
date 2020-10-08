@@ -153,7 +153,7 @@ def get_austin_df(dir_path):
     austin = austin[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude']]
 
     # austin.info()
-    print(austin.head())
+    # print(austin.head())
     print("Processed Austin data!")
     return austin
 
@@ -199,7 +199,7 @@ def get_chicago_df(dir_path):
     chicago = chicago[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude']]
 
     # chicago.info()
-    print(chicago.head())
+    # print(chicago.head())
     print("Processed Chicago data!")
     return chicago
 
@@ -249,7 +249,7 @@ def get_baltimore_df(dir_path):
                            'latitude', 'weapon']]
 
     # baltimore.info()
-    print(baltimore.head())
+    # print(baltimore.head())
     print("Processed Baltimore data!")
     return baltimore
 
@@ -296,7 +296,7 @@ def get_la_df(dir_path):
                      'sex', 'age']]
 
     # lacity.info()
-    print(lacity.head())
+    # print(lacity.head())
     print("Processed LA City data!")
     return lacity
 
@@ -339,7 +339,7 @@ def get_rochester_df(dir_path):
     rochester = rochester[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon']]
 
     # rochester.info()
-    print(rochester.head())
+    # print(rochester.head())
     print("Processed Rochester data!")
     return rochester
 
