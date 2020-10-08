@@ -1,0 +1,101 @@
+city,offense,address,day,month,year,time,shift,longitude,latitude,weapon
+Rochester,Larceny,15 GASLIGHT LANE,13,8,2020,22:00:00,Night,-77.542755,43.15029,* No Weapon Specified *
+Rochester,Larceny,377 WEBSTER,1,10,2020,08:00:00,Morning,-77.57447,43.16844,* No Weapon Specified *
+Rochester,Larceny,127 HEWLITT STREET,7,8,2020,22:00:00,Night,-77.57447,43.16844,* No Weapon Specified *
+Rochester,Larceny,65 ST PAUL STREET,1,10,2020,17:00:00,Evening,-77.609665,43.15819,* No Weapon Specified *
+Rochester,Aggravated Assault,641 PORTLAND AVENUE,28,5,2020,18:02:09,Evening,-77.58988,43.177776,Other Weapon
+Rochester,Larceny,24 RAMONA PARK,9,8,2020,20:04:00,Night,-77.651245,43.197178,* No Weapon Specified *
+Rochester,Larceny,601 ELMWOOD AVENUE,13,8,2020,10:03:00,Morning,-77.62436,43.123608,* No Weapon Specified *
+Rochester,Larceny,301 EXCHANGE BOULEVARD,1,1,2019,11:03:09,Morning,-77.612015,43.14929,* No Weapon Specified *
+Rochester,Larceny,1050 LAKE AVENUE,31,7,2020,15:00:01,Noon,-77.630745,43.18479,* No Weapon Specified *
+Rochester,Aggravated Assault,1319 NORTH STREET,22,9,2020,17:01:04,Evening,-77.59576,43.183693,Knife/Cutting Instrument
+Rochester,Larceny,31 GREENNOLLS DRIVE,8,8,2020,19:03:00,Evening,-77.59576,43.183693,* No Weapon Specified *
+Rochester,Larceny,86 STEWART STREET,8,8,2020,12:00:00,Noon,-77.61329,43.12741,* No Weapon Specified *
+Rochester,Larceny,172 AZALEA ROAD,8,8,2020,05:03:00,Morning,-77.60606,43.125984,* No Weapon Specified *
+Rochester,Larceny,537 FRATERNITY ROAD,4,8,2020,09:00:00,Morning,-77.63262,43.12943,* No Weapon Specified *
+Rochester,Larceny,107 GREGORY PARK,8,8,2020,20:00:00,Night,-77.60697,43.142513,* No Weapon Specified *
+Rochester,Burglary,50 RAINES PARK,7,8,2020,04:00:00,Night,-77.63471,43.183975,* No Weapon Specified *
+Rochester,Larceny,205 HUMBOLT STREET,16,6,2020,07:00:00,Morning,-77.56251,43.153767,* No Weapon Specified *
+Rochester,Burglary,1441 EAST AVENUE,9,8,2020,11:03:05,Morning,-77.566055,43.147614,* No Weapon Specified *
+Rochester,Burglary,125 GORSLINE STREET,21,7,2020,20:01:05,Night,-77.62578,43.191616,* No Weapon Specified *
+Rochester,Larceny,57 POTOMAC DRIVE,10,8,2020,00:00:00,Night,-77.65219,43.153885,* No Weapon Specified *
+Rochester,Larceny,4 IRVINGTON ROAD,10,8,2020,21:05:08,Night,-77.62014,43.119587,* No Weapon Specified *
+Rochester,Burglary,48 FLOWER CITY PARK,2,8,2020,15:00:00,Noon,-77.625854,43.19288,* No Weapon Specified *
+Rochester,Aggravated Assault,140 CUMMINGS STREET,5,8,2020,14:03:00,Noon,-77.573616,43.173782,Semiautomatic Handgun
+Rochester,Larceny,1067 NORTH WINTON ROAD,7,8,2020,04:03:01,Night,-77.54457,43.166084,* No Weapon Specified *
+Rochester,Burglary,1279 MONROE AVENUE,31,7,2020,09:00:00,Morning,-77.57759,43.13673,* No Weapon Specified *
+Rochester,Aggravated Assault,182 CADY STREET,20,5,2020,14:02:07,Noon,-77.63176,43.14603,Blunt Object
+Rochester,Burglary,1450 HUDSON AVENUE,30,7,2020,01:00:00,Night,-77.59953,43.192924,* No Weapon Specified *
+Rochester,Larceny,116 WOODWARD STREET,7,8,2020,10:00:05,Morning,-77.59457,43.16293,* No Weapon Specified *
+Rochester,Larceny,301 EASTMAN AVENUE,1,6,2020,13:00:04,Noon,-77.63649,43.201958,* No Weapon Specified *
+Rochester,Larceny,303 FARMINTON ROAD,7,8,2020,00:00:00,Night,-77.546875,43.165607,* No Weapon Specified *
+Rochester,Larceny,32 WALL STREET,13,6,2020,17:00:00,Evening,-77.61274,43.12903,* No Weapon Specified *
+Rochester,Larceny,45 REDFIELD STREET,10,8,2020,00:00:00,Night,-77.62532,43.240875,* No Weapon Specified *
+Rochester,Larceny,380 RAINES PKWY,29,7,2020,11:00:00,Morning,-77.633514,43.190773,* No Weapon Specified *
+Rochester,Larceny,113 MERCHANTS ROAD,3,8,2020,22:03:00,Night,-77.546104,43.15855,* No Weapon Specified *
+Rochester,Burglary,263 SOUTH PLYMOUTH AVENUE,22,6,2020,00:00:00,Night,-77.61417,43.14961,* No Weapon Specified *
+Rochester,Larceny,183 CYPRESS STREET,13,6,2020,21:00:00,Night,-77.60888,43.13953,* No Weapon Specified *
+Rochester,Larceny,100 SEWARD STREET,25,7,2020,07:01:06,Morning,-77.62299,43.14454,* No Weapon Specified *
+Rochester,Burglary,251 PARKWAY AVENUE,21,7,2020,14:00:00,Noon,-77.63473,43.169155,* No Weapon Specified *
+Rochester,Larceny,11 BROOKLYN STREET,15,6,2020,12:02:07,Noon,-77.63735,43.177765,* No Weapon Specified *
+Rochester,Aggravated Assault,49 BENNINGTON DRIVE,15,5,2020,09:00:00,Morning,-77.64016,43.215145,Not Reported
+Rochester,Aggravated Assault,216 HUDSON AVENUE,26,7,2020,21:05:00,Night,-77.60174,43.167496,Firearm
+Rochester,Larceny,427 BROADWAY STREET,14,6,2020,14:00:00,Noon,-77.60159,43.148235,* No Weapon Specified *
+Rochester,Larceny,81 WILLIAM WARFIELD DRIVE,10,6,2020,13:00:00,Noon,-77.609955,43.170853,* No Weapon Specified *
+Rochester,Larceny,260 GARLAND AVENUE,29,5,2020,15:00:00,Noon,-77.66358,43.15895,* No Weapon Specified *
+Rochester,Larceny,601 ELMWOOD AVENUE,3,8,2020,05:00:09,Morning,-77.62436,43.123608,* No Weapon Specified *
+Rochester,Larceny,224 WINCHESTER STREET,18,6,2020,13:00:00,Noon,-77.63491,43.205803,* No Weapon Specified *
+Rochester,Aggravated Assault,668 CLARISSA STREET,31,7,2020,00:04:07,Night,-77.615036,43.144947,Knife/Cutting Instrument
+Rochester,Burglary,477 THURSTON ROAD,1,7,2020,08:00:00,Morning,-77.65107,43.135483,* No Weapon Specified *
+Rochester,Aggravated Assault,273 PEARL STREET,8,6,2020,13:02:02,Noon,-77.59793,43.14489,Knife/Cutting Instrument
+Rochester,Larceny,400 WEST AVENUE,29,7,2020,17:00:00,Evening,-77.64874,43.15124,* No Weapon Specified *
+Rochester,Burglary,390 EAST HENRIETTA ROAD,24,7,2020,01:00:00,Night,-77.615425,43.11342,* No Weapon Specified *
+Rochester,Larceny,115 BARRINGTON STREET,6,6,2020,13:04:05,Noon,-77.58132,43.149174,* No Weapon Specified *
+Rochester,Burglary,14 RAILROAD STREET,1,2,2020,12:00:00,Noon,-77.584526,43.162838,* No Weapon Specified *
+Rochester,Robbery,22 KOSCIUSKO STREET,28,7,2020,11:01:07,Morning,-77.598785,43.18539,Other Weapon
+Rochester,Burglary,110 ROYLESTON ROAD,11,6,2020,07:00:00,Morning,-77.54992,43.161842,* No Weapon Specified *
+Rochester,Larceny,1286 ST PAUL STREET,11,6,2020,21:01:02,Night,-77.62486,43.17944,* No Weapon Specified *
+Rochester,Motor Vehicle Theft,533 BAY STREET,12,6,2020,17:03:00,Evening,-77.57957,43.170948,* No Weapon Specified *
+Rochester,Burglary,20 CARLSON ROAD,17,7,2020,18:00:00,Evening,-77.56065,43.150196,* No Weapon Specified *
+Rochester,Burglary,41 BEACH STREET,17,7,2020,11:00:00,Morning,-77.62306,43.184635,* No Weapon Specified *
+Rochester,Burglary,1 SHELDON TER,7,6,2020,23:00:00,Night,-77.64864,43.131992,* No Weapon Specified *
+Rochester,Burglary,25 HAMILTON STREET,6,6,2020,17:03:00,Evening,-77.609566,43.14467,* No Weapon Specified *
+Rochester,Larceny,164 HAMPDEN ROAD,6,6,2020,21:00:00,Night,-77.55801,43.152626,* No Weapon Specified *
+Rochester,Larceny,37 ST JACOBS STREET,29,5,2020,20:02:04,Night,-77.594666,43.17798,* No Weapon Specified *
+Rochester,Larceny,452 PULLMAN STREET,5,6,2020,10:00:00,Morning,-77.64194,43.196392,* No Weapon Specified *
+Rochester,Aggravated Assault,199 WINCHESTER STREET,30,5,2020,02:01:09,Night,-77.634705,43.20553,Knife/Cutting Instrument
+Rochester,Aggravated Assault,240 AVENUE C,6,6,2020,18:05:08,Evening,-77.61825,43.179626,Knife/Cutting Instrument
+Rochester,Motor Vehicle Theft,1386 CULVER ROAD,18,5,2020,05:04:00,Morning,-77.56015,43.170757,* No Weapon Specified *
+Rochester,Aggravated Assault,709 NORTH PLYMOUTH AVENUE,14,8,2020,00:01:05,Night,-77.62668,43.165028,Firearm
+Rochester,Burglary,1462 CULVER ROAD,15,7,2020,18:00:00,Evening,-77.55926,43.172195,* No Weapon Specified *
+Rochester,Burglary,25 BROEZEL STREET,4,6,2020,21:00:00,Night,-77.638756,43.180653,* No Weapon Specified *
+Rochester,Larceny,139 FERNWOOD PARK,1,8,2020,21:00:00,Night,-77.56268,43.18078,* No Weapon Specified *
+Rochester,Larceny,64 EVA PL,30,7,2020,16:03:00,Evening,-77.64181,43.15493,* No Weapon Specified *
+Rochester,Larceny,249 BERGEN STREET,5,6,2020,03:00:00,Night,-77.65828,43.169884,* No Weapon Specified *
+Rochester,Larceny,20 WILSON STREET,25,7,2020,17:00:00,Evening,-77.60109,43.16887,* No Weapon Specified *
+Rochester,Larceny,1043 UNIVERSITY AVENUE,3,6,2020,13:00:00,Noon,-77.57506,43.15241,* No Weapon Specified *
+Rochester,Burglary,33 CRAWFORD STREET,3,6,2020,00:03:00,Night,-77.60294,43.13698,* No Weapon Specified *
+Rochester,Larceny,25 FRANKLIN STREET,8,6,2020,04:00:00,Night,-77.60547,43.158073,* No Weapon Specified *
+Rochester,Larceny,292 ST CASMIR DRIVE,6,6,2020,20:00:00,Night,-77.60285,43.19009,* No Weapon Specified *
+Rochester,Robbery,266 BUFFALO ROAD,2,6,2020,05:00:09,Morning,-77.6573,43.151943,Firearm
+Rochester,Robbery,170 WARING ROAD,29,4,2020,20:03:00,Night,-77.56372,43.18249,Personal Weapons
+Rochester,Larceny,43 SOUTH UNION STREET,22,5,2020,16:00:00,Evening,-77.597755,43.154022,* No Weapon Specified *
+Rochester,Aggravated Assault,985 SOUTH CLINTON AVENUE,20,7,2020,11:05:00,Morning,-77.59563,43.138954,Knife/Cutting Instrument
+Rochester,Larceny,636 MAGEE AVENUE,28,7,2020,23:00:00,Night,-77.64802,43.19021,* No Weapon Specified *
+Rochester,Motor Vehicle Theft,53 SOUTH UNION STREET,27,5,2020,19:00:00,Evening,-77.59801,43.153595,* No Weapon Specified *
+Rochester,Larceny,670 THURSTON AVENUE,29,5,2020,13:00:00,Noon,-77.6506,43.13159,* No Weapon Specified *
+Rochester,Larceny,1350 UNIVERSITY AVENUE,28,7,2020,14:00:00,Noon,-77.5653,43.15035,* No Weapon Specified *
+Rochester,Aggravated Assault,380 WEST RIDGE ROAD,24,5,2020,01:02:09,Night,-77.63711,43.199944,Blunt Object
+Rochester,Larceny,66 SOBIESKI STREET,26,5,2020,03:00:00,Night,-77.597496,43.184647,* No Weapon Specified *
+Rochester,Larceny,341 FERNWOOD AVENUE,27,5,2020,16:04:00,Evening,-77.58039,43.178104,* No Weapon Specified *
+Rochester,Burglary,111 EAST AVENUE,18,5,2020,18:00:00,Evening,-77.60126,43.156616,* No Weapon Specified *
+Rochester,Burglary,60 BELMONT STREET,19,5,2020,21:03:00,Night,-77.57947,43.140083,* No Weapon Specified *
+Rochester,Larceny,1210 NORTH CLINTON AVENUE,25,7,2020,15:03:00,Noon,-77.61351,43.181503,* No Weapon Specified *
+Rochester,Larceny,320 AVERY STREET,26,7,2020,23:00:00,Night,-77.65002,43.171333,* No Weapon Specified *
+Rochester,Burglary,167 BIRR STREET,9,5,2020,12:00:00,Noon,-77.635864,43.185123,* No Weapon Specified *
+Rochester,Larceny,72 MORTIMER STREET,21,5,2020,14:00:00,Noon,-77.607796,43.158176,* No Weapon Specified *
+Rochester,Motor Vehicle Theft,135 EAST RIDGE ROAD,15,5,2020,18:03:00,Evening,-77.631,43.195877,* No Weapon Specified *
+Rochester,Larceny,747 NORTON STREET,13,7,2020,11:02:08,Morning,-77.603195,43.186527,* No Weapon Specified *
+Rochester,Motor Vehicle Theft,102 CHATHAM GARDENS,27,7,2020,06:00:00,Morning,-77.60698,43.16823,* No Weapon Specified *
+Rochester,Larceny,301 EASTMAN AVENUE,27,5,2020,13:00:00,Noon,-77.63649,43.201958,* No Weapon Specified *
+Rochester,Larceny,1111 ELMWOOD AVENUE,22,5,2020,12:00:00,Noon,-77.61222,43.122192,* No Weapon Specified *
