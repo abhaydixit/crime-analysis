@@ -8,10 +8,49 @@ import json
 import sys
 import time
 
-from pymongo import MongoClient
+from src.connection import get_mongo_connection
+from src.connection import get_mongo_parameters
 
 pd.options.mode.chained_assignment = None
 pd.set_option('display.max_columns', None)
+
+
+def read_offense():
+    with open('offense_types', 'r') as file:
+        offense_types = json.loads(file.read())
+
+    global MURDER, DRUG, FRAUD, ASSAULT, THEFT, SEXUAL, OTHER
+
+    MURDER = set(map(lambda x : x.lower(), offense_types["MURDER"]))
+    DRUG = set(map(lambda x : x.lower(), offense_types["DRUG"]))
+    FRAUD = set(map(lambda x : x.lower(), offense_types["FRAUD"]))
+    ASSAULT = set(map(lambda x : x.lower(), offense_types["ASSAULT"]))
+    THEFT = set(map(lambda x : x.lower(), offense_types["THEFT"]))
+    SEXUAL = set(map(lambda x : x.lower(), offense_types["SEXUAL"]))
+    OTHER = set(map(lambda x : x.lower(), offense_types["OTHER"]))
+
+
+def parse_offense_types(column):
+    column = column.lower()
+    offense = ""
+    if column in MURDER:
+        offense = "Murder"
+    elif column in DRUG:
+        offense = "Drug Abuse"
+    elif column in FRAUD:
+        offense = "Fraud"
+    elif column in ASSAULT:
+        offense = "Assault"
+    elif column in THEFT:
+        offense = "Theft"
+    elif column in SEXUAL:
+        offense = "Sexual"
+    elif column in OTHER:
+        offense = "Other"
+
+    if offense == "":
+        print(column, "returning ", offense)
+    return offense
 
 
 def get_df(dir_path):
@@ -133,7 +172,7 @@ def get_austin_df(dir_path):
     austin.dropna(subset=["date"], inplace=True)
 
     # Split Date into 3 separate columns
-    austin[["day", "month", "year"]] = austin["date"].str.split("/", expand=True).astype(np.int32)
+    austin[["month", "day", "year"]] = austin["date"].str.split("/", expand=True).astype(np.int32)
     austin.drop(austin[austin['year'] < 2011].index, inplace=True)
 
     # Process Time to get shift. Call get_shift function
@@ -143,6 +182,9 @@ def get_austin_df(dir_path):
     # Change data type of Lat and Long
     change_datatypes(austin, 'latitude')
     change_datatypes(austin, 'longitude')
+
+    # Clean Offense Type
+    austin['offense'] = austin['offense'].apply(lambda x: parse_offense_types(x))
 
     # Delete Columns
     delete_columns(austin, ['Occurred Date Time', 'date', 'am/pm', 'hour'])
@@ -179,7 +221,7 @@ def get_chicago_df(dir_path):
     chicago['time'] = chicago["time"].str.cat(chicago["am/pm"], sep="")
 
     # Split Date into 3 separate columns
-    chicago[["day", "month", "year"]] = chicago["date"].str.split("/", expand=True).astype(np.int32)
+    chicago[["month", "day", "year"]] = chicago["date"].str.split("/", expand=True).astype(np.int32)
     chicago.dropna(subset=["year"], inplace=True)
 
     # Change data type of Lat and Long
@@ -189,6 +231,9 @@ def get_chicago_df(dir_path):
     # Process Time to get shift. Call get_shift function
     format_time(chicago, 'time')
     get_shift(chicago, 'time')
+
+    # Clean Offense Type
+    chicago['offense'] = chicago['offense'].apply(lambda x: parse_offense_types(x))
 
     # Delete Columns
     delete_columns(chicago, ['Year', 'Date', 'date', 'am/pm', 'hour'])
@@ -239,6 +284,9 @@ def get_baltimore_df(dir_path):
     change_datatypes(baltimore, 'latitude')
     change_datatypes(baltimore, 'longitude')
 
+    # Clean Offense Type
+    baltimore['offense'] = baltimore['offense'].apply(lambda x: parse_offense_types(x))
+
     # Clean address
     clean_address(baltimore, "address")
 
@@ -281,6 +329,9 @@ def get_la_df(dir_path):
     lacity['time'] = pd.to_datetime(lacity['time'], format='%H%M%S')
     lacity['time'] = pd.to_datetime(lacity['time'], infer_datetime_format=True)
     get_shift(lacity, 'time')
+
+    # Clean Offense Type
+    lacity['offense'] = lacity['offense'].apply(lambda x: parse_offense_types(x))
 
     # Change data type of Lat and Long
     change_datatypes(lacity, 'latitude')
@@ -330,6 +381,9 @@ def get_rochester_df(dir_path):
     change_datatypes(rochester, 'latitude')
     change_datatypes(rochester, 'longitude')
 
+    # Clean Offense Type
+    rochester['offense'] = rochester['offense'].apply(lambda x: parse_offense_types(x))
+
     # Clean Address
     clean_address(rochester, "address")
 
@@ -354,37 +408,6 @@ def get_dataset_path(file_path):
     with open(file_path, 'r') as f:
         base_path = json.loads(f.read())
         return str(base_path['base_path'])
-
-
-def get_mongo_parameters(mongo_file):
-    """
-    Function to get the mongo parameters from the configuration file
-    :param mongo_file: File containing the Mongo connection details. Should be a '.json' file
-    :return: Mongo connection parameters
-    """
-    print('Getting mongo params from', mongo_file)
-    with open(mongo_file, 'r') as f:
-        connection_details = json.loads(f.read())
-        return dict(
-            host=connection_details['host'],
-            port=connection_details['port'],
-            database=connection_details['database']
-        )
-
-
-def get_mongo_connection(mongo_params):
-    """
-    Function to get Mongo connection
-    :param mongo_params: dictionary containing mongo parameters
-    :return: Mongo Connection
-    """
-    try:
-        connection = MongoClient("mongodb://" + mongo_params['host'] + ":" + str(mongo_params['port']))
-        print("Connected to MongoDB successfully")
-    except:
-        print("Could not connect to MongoDB. Please check the connection parameters")
-        sys.exit(-1)
-    return connection[mongo_params['database']]
 
 
 def insert_df_to_mongo(mongo_collection, dataframe, city_name):
@@ -419,7 +442,7 @@ def insert_data_to_mongo(mongo_collection, aus, balt, chicago, la, roch):
     insert_df_to_mongo(mongo_collection, aus, 'Austin')
     insert_df_to_mongo(mongo_collection, balt, 'Baltimore')
     insert_df_to_mongo(mongo_collection, chicago, 'Chicago')
-    insert_df_to_mongo(mongo_collection, la, 'LA City')
+    insert_df_to_mongo(mongo_collection, la, 'LACity')
     insert_df_to_mongo(mongo_collection, roch, 'Rochester')
 
 
@@ -432,13 +455,14 @@ def main():
     config_file_path = '../config'
     dir_path = get_dataset_path(config_file_path + '/path.json')
 
+    read_offense()
     # Get Dataframes
     aus, balt, chicago, la, roch = get_df(dir_path)
 
     mongo_connection_params = get_mongo_parameters(config_file_path + '/connection.json')
     print("Using Mongo Connection Params as: ", mongo_connection_params)
     mongo_database = get_mongo_connection(mongo_connection_params)
-    mongo_collection = mongo_database['Crime Analysis by City']
+    mongo_collection = mongo_database['city_crimes']
 
     insert_data_to_mongo(mongo_collection, aus, balt, chicago, la, roch)
     end = time.time()
