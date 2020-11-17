@@ -48,9 +48,11 @@ def parse_offense_types(column):
     elif column in OTHER:
         offense = "Other"
 
-    if offense == "":
-        print(column, "returning ", offense)
     return offense
+
+
+def weapon(column):
+    return "Yes" if len(column) > 1 else "No"
 
 
 def get_df(dir_path):
@@ -192,7 +194,10 @@ def get_austin_df(dir_path):
     # Clean address
     clean_address(austin, "address")
 
-    austin = austin[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude']]
+    # add weapon
+    austin['weapon'] = ["No"] * len(austin.index)
+
+    austin = austin[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon']]
 
     # austin.info()
     # print(austin.head())
@@ -241,7 +246,10 @@ def get_chicago_df(dir_path):
     # Clean address
     clean_address(chicago, "address")
 
-    chicago = chicago[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude']]
+    # add weapon
+    chicago['weapon'] = ["No"] * len(chicago.index)
+
+    chicago = chicago[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon']]
 
     # chicago.info()
     # print(chicago.head())
@@ -293,6 +301,9 @@ def get_baltimore_df(dir_path):
     # Delete Columns
     delete_columns(baltimore, ["CrimeDate", 'hour'])
 
+    # add weapon
+    baltimore['weapon'] = baltimore['weapon'].apply(lambda x: weapon(x))
+
     baltimore = baltimore[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude',
                            'latitude', 'weapon']]
 
@@ -343,6 +354,9 @@ def get_la_df(dir_path):
     # Delete Columns
     delete_columns(lacity, ["DATE OCC", 'hour'])
 
+    # add weapon
+    lacity['weapon'] = lacity['weapon'].apply(lambda x: weapon(x))
+
     lacity = lacity[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon',
                      'sex', 'age']]
 
@@ -389,6 +403,9 @@ def get_rochester_df(dir_path):
 
     # Delete Columns
     delete_columns(rochester, ["OccurredFrom_Timestamp", 'hour'])
+
+    # add weapon
+    rochester['weapon'] = rochester['weapon'].apply(lambda x: weapon(x))
 
     rochester = rochester[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon']]
 
