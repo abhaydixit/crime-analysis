@@ -16,3 +16,6 @@ There should be 5 CSV files: Austin.csv, Baltimore.csv, Chicago.csv, LACity.csv,
 - Set the base path containing the csv files in config/path.json
 - Open the terminal. <br />
 `$ python3 preprocess.py`
+
+
+### INSTALL apyori/ mlxtend
