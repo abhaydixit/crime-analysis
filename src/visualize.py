@@ -1,5 +1,9 @@
 import sys
+from collections import Counter
+
 import matplotlib.pyplot as plt
+from scipy import stats
+
 from src import connection as conn
 import pandas as pd
 
@@ -67,6 +71,73 @@ def pie_chart(mongo_coln):
         plt.legend(loc='best', labels=['%s, %1.1f %%' % (l, (s/sum(sizes))*100) for l, s in zip(labels, sizes)])
         plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     # plt.show()
+
+
+
+def time_and_number_of_crimes(mongo_coln):
+    cursor = mongo_coln.aggregate([
+        {
+            '$project': {
+                'time': 1,
+                '_id': 0
+            }
+        }
+    ])
+
+    temo = []
+
+    for item in cursor:
+        t, _, _ = map(int, item['time'].split(':'))
+        temo.append(t)
+
+    c = Counter(temo)
+    times = list(c.keys())
+    counts = list(c.values())
+
+    correlation_age_count, p_value = stats.pearsonr(times, counts)
+    print("Pearson's correlation coefficient for hour of day and number of crimes", correlation_age_count)
+
+    plt.figure()
+    plt.scatter(times, counts, color='darkgreen', s=3)
+    plt.xlabel("Hour of Day")
+    plt.ylabel("Number of Crimes")
+    plt.title("Hour of Day v/s Number of Crimes")
+
+
+def age_and_number_of_crime(mongo_coln):
+    cursor = mongo_coln.aggregate([{
+        '$match': {'city': 'LACity'}
+        },
+        {
+            '$project': {
+                'age': 1,
+                '_id': 0
+            }
+        },
+        {
+            '$group': {
+                '_id': "$age",
+                'count': {"$sum": 1}
+            }
+        }
+    ])
+
+    age = []
+    count = []
+    for item in cursor:
+        if int(item['_id']) != 31:
+            age.append(item['_id'])
+            count.append(item['count'])
+
+    correlation_age_count, p_value = stats.pearsonr(age, count)
+    print("Pearson's correlation coefficient for age and number of crimes", correlation_age_count)
+
+    plt.figure()
+    plt.scatter(age, count, color='red', s=3)
+    plt.xlabel("Age")
+    plt.ylabel("Number of Crimes")
+    plt.title("Age v/s Number of Crimes")
+
 
 
 def month_series(mongo_coln):
@@ -253,6 +324,8 @@ def main():
         month_year_time_series(mongo_coln)
         month_series(mongo_coln)
         pie_chart(mongo_coln)
+        age_and_number_of_crime(mongo_coln)
+        time_and_number_of_crimes(mongo_coln)
         plt.show()
 
 

@@ -31,7 +31,7 @@ def read_data(mongo_collection):
     transaction_encoder_transformed = transaction_encoder.fit(records).transform(records)
     records_df = pd.DataFrame(transaction_encoder_transformed, columns=transaction_encoder.columns_)
 
-    fp = fpgrowth(records_df, min_support=0.001, use_colnames=True)
+    fp = fpgrowth(records_df, min_support=0.03, use_colnames=True)
     fp = fp.sort_values(['support'], ascending=[False])
 
     print("%s \t\t %50s" % ('Support', 'Frequent Itemsets'))
@@ -73,7 +73,7 @@ def comparing_la_city(mongo_collection):
     transaction_encoder_transformed = transaction_encoder.fit(records).transform(records)
     records_df = pd.DataFrame(transaction_encoder_transformed, columns=transaction_encoder.columns_)
 
-    fp = fpgrowth(records_df, min_support=0.045, use_colnames=True)
+    fp = fpgrowth(records_df, min_support=0.025, use_colnames=True)
     fp = fp.sort_values(['support'], ascending=[False])
 
     print("%s \t\t %50s" % ('Support', 'Frequent Itemsets'))
@@ -98,7 +98,7 @@ def main():
 
     read_data(mongo_collection)
 
-    # comparing_la_city(mongo_collection)
+    comparing_la_city(mongo_collection)
 
 
 if __name__ == '__main__':
