@@ -200,7 +200,7 @@ def get_austin_df(dir_path):
     austin = austin[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon']]
 
     # austin.info()
-    # print(austin.head())
+    # print(len(austin.index))
     print("Processed Austin data!")
     return austin
 
@@ -356,6 +356,10 @@ def get_la_df(dir_path):
 
     # add weapon
     lacity['weapon'] = lacity['weapon'].apply(lambda x: weapon(x))
+
+    lacity['sex'] = np.where(lacity["sex"] == "", "X", lacity['sex'])
+
+    lacity['age'] = np.where(lacity['age'] <= 0, int(np.mean(lacity['age'])), lacity['age'])
 
     lacity = lacity[['offense', 'address', 'day', 'month', 'year', 'time', 'shift', 'longitude', 'latitude', 'weapon',
                      'sex', 'age']]
