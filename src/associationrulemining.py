@@ -17,20 +17,21 @@ def read_data(mongo_collection):
             'city': 1,
             'offense': 1,
             'shift': 1,
+            'month': 1,
             '_id': 0
         }
     }])
 
     records = []
     for item in cursor:
-        re = [item['city'], item['offense'], item['shift']]
+        re = [item['city'], item['offense'], item['shift'], str(item['month'])]
         records.append(re)
-
+    del cursor
     transaction_encoder = TransactionEncoder()
     transaction_encoder_transformed = transaction_encoder.fit(records).transform(records)
     records_df = pd.DataFrame(transaction_encoder_transformed, columns=transaction_encoder.columns_)
 
-    fp = fpgrowth(records_df, min_support=0.045, use_colnames=True)
+    fp = fpgrowth(records_df, min_support=0.03, use_colnames=True)
     fp = fp.sort_values(['support'], ascending=[False])
 
     print("%s \t\t %50s" % ('Support', 'Frequent Itemsets'))
@@ -53,6 +54,8 @@ def comparing_la_city(mongo_collection):
                 'offense': 1,
                 'age': 1,
                 'sex': 1,
+                'month': 1,
+                'shift': 1,
                 '_id': 0
             }
         }
@@ -60,17 +63,17 @@ def comparing_la_city(mongo_collection):
 
     records = []
     for item in cursor:
-        re = [str(item['age']), item['sex'], item['offense']]
+        re = [str(item['age']), item['sex'], item['offense'], str(item['month']), item['shift']]
         records.append(re)
 
-    for re in records:
-        print(re)
+    # for re in records:
+    #     print(re)
 
     transaction_encoder = TransactionEncoder()
     transaction_encoder_transformed = transaction_encoder.fit(records).transform(records)
     records_df = pd.DataFrame(transaction_encoder_transformed, columns=transaction_encoder.columns_)
 
-    fp = fpgrowth(records_df, min_support=0.045, use_colnames=True)
+    fp = fpgrowth(records_df, min_support=0.025, use_colnames=True)
     fp = fp.sort_values(['support'], ascending=[False])
 
     print("%s \t\t %50s" % ('Support', 'Frequent Itemsets'))
@@ -93,7 +96,7 @@ def main():
     mongo_database = get_mongo_connection(mongo_connection_params)
     mongo_collection = mongo_database['city_crimes']
 
-    # read_data(mongo_collection)
+    read_data(mongo_collection)
 
     comparing_la_city(mongo_collection)
 
