@@ -47,3 +47,17 @@ Please maintain the following directory structure:
 - Datasets
     * place the downloaded datasets here and change the file path in `path.json`
     
+    
+### Task performed by each member:
+
+- Idea proposal – Pranjal Pandey
+- Dataset selection  - Pranjal and Abhay
+- Project planning – Adya Shrivastava
+- Analysis and experiment ideas – Abhay Dixit
+- Data Cleaning – Adya, Pranjal, Abhay
+- Data Analysis - Abhay Dixit
+- Pairwise Comparison – Adya Shrivastava
+- Code Review – Adya, Abhay, Pranjal
+- Report writing – Pranjal Pandey, Adya Shrivastava, Abhay Dixit
+- Presentation preparation – Pranjal Pandey, Adya Shrivastava, Abhay Dixit
+    
