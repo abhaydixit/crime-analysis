@@ -61,17 +61,19 @@ def pie_chart(mongo_coln):
             roch_dict['offense'].append(item['_id']['offense'])
             roch_dict['crime count'].append(item['count'])
 
+    keys_vs_colors_dict = {'Murder': 'red', 'Assault': 'orange', 'Sexual': 'blue', 'Fraud': 'yellow', 'Other': 'brown',
+                           'Theft': 'green', 'Drug Abuse': 'purple'}
+
     cities = [austin_dict, baltimore_dict, chicago_dict, lacity_dict, roch_dict]
     for city in cities:
         labels = city['offense']
         sizes = city['crime count']
         plt.figure()
         plt.title(city['city'])
-        plt.pie(sizes, labels=labels, startangle=90)
+        plt.pie(sizes, labels=labels, startangle=90, colors=[keys_vs_colors_dict[l] for l in labels])
         plt.legend(loc='best', labels=['%s, %1.1f %%' % (l, (s/sum(sizes))*100) for l, s in zip(labels, sizes)])
         plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     # plt.show()
-
 
 
 def time_and_number_of_crimes(mongo_coln):

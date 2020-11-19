@@ -1,6 +1,6 @@
 ### Crime Analysis of Cities in the USA
 #### Data Extraction and Pre-processing
-This program is to clean the data from the 5 datasets.
+This program is to clean and analyze the data from the 5 datasets.
 - [Austin.csv](https://data.austintexas.gov/Public-Safety/Crime-Reports/fdj4-gpfu)
 - [Baltimore.csv](https://data.baltimorecity.gov/Public-Safety/BPD-Part-1-Victim-Based-Crime-Data/wsfq-mvij)
 - [Chicago.csv](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
@@ -18,4 +18,24 @@ There should be 5 CSV files: Austin.csv, Baltimore.csv, Chicago.csv, LACity.csv,
 `$ python3 preprocess.py`
 
 
-### INSTALL apyori/ mlxtend
+### Packages Required:
+- mlxtend
+- numpy
+- pandas
+- scipy
+- xgboost
+
+Please maintain the following directory structure:
+- src
+    * `associationrulemining.py`
+    * `Classification.py`
+    * `connection.py`
+    * `offense_type.json`
+    * `preprocess.py`
+    * `visualize.py`
+- config
+    * `connection.json`
+    * `path.json`
+    
+- Datasets
+    * place the downloaded datasets here and change the file path in `path.json`
