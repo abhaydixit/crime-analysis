@@ -1,4 +1,8 @@
-import sys
+__author__ = "Abhay Rajendra Dixit"
+__author__ = "Adya Shrivastava"
+__author__ = "Pranjal Pandey"
+
+
 from collections import Counter
 
 import matplotlib.pyplot as plt

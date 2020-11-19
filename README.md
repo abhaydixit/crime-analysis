@@ -14,8 +14,14 @@ There should be 5 CSV files: Austin.csv, Baltimore.csv, Chicago.csv, LACity.csv,
 - Open the config folder.
 - Set database name, hostname and port number in the connection.json file
 - Set the base path containing the csv files in config/path.json
-- Open the terminal. <br />
-`$ python3 preprocess.py`
+- Open the terminal and run the following commands<br />
+    * To load the data to MongoDB: `$ python3 preprocess.py`
+
+    * For visualizations: `$ python3 visualize.py`
+    
+    * For association rule mining: `$ python3 associationrulemining.py`
+    
+    * For classification: `$ python3 Classification.py`
 
 
 ### Packages Required:
@@ -24,6 +30,7 @@ There should be 5 CSV files: Austin.csv, Baltimore.csv, Chicago.csv, LACity.csv,
 - pandas
 - scipy
 - xgboost
+- libomp
 
 Please maintain the following directory structure:
 - src
@@ -39,3 +46,4 @@ Please maintain the following directory structure:
     
 - Datasets
     * place the downloaded datasets here and change the file path in `path.json`
+    

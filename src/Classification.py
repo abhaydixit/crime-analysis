@@ -4,10 +4,7 @@ __author__ = "Pranjal Pandey"
 
 import pandas as pd
 import numpy as np
-import json
-import sys
-import time
-import connection
+from src import connection
 from numpy import loadtxt
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
@@ -26,6 +23,7 @@ from pymongo import MongoClient
 pd.options.mode.chained_assignment = None
 pd.set_option('display.max_columns', None)
 
+
 def getDF(mongo_collection):
     city_data = list(mongo_collection.find({"city": "LACity"},
                                            {"offense": 1, "sex": 1, "weapon": 1,
@@ -34,6 +32,8 @@ def getDF(mongo_collection):
     df.to_csv("La_clean.csv", index=False)
     print(df)
     return df
+
+
 def analyse(la_df):
     print(la_df.columns)
     X_columns = ['shift', 'month', 'weapon', 'sex', 'age']
@@ -97,8 +97,6 @@ def analyse(la_df):
     print("K-fold CV average score: %.2f" % kf_cv_scores.mean())
 
     print(classification_report(y_test, y_pred))
-
-
 
 
 def main():
