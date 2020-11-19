@@ -55,8 +55,9 @@ Please maintain the following directory structure:
 - Project planning – Adya Shrivastava
 - Analysis and experiment ideas – Abhay Dixit
 - Data Cleaning – Adya, Pranjal, Abhay
-- Data Analysis - Abhay Dixit
-- Pairwise Comparison – Adya Shrivastava
+- Data Analysis and visualization- Abhay Dixit
+- Pairwise Comparison and Association Rule mining – Adya Shrivastava
+- Data Classification - Pranjal Pandey 
 - Code Review – Adya, Abhay, Pranjal
 - Report writing – Pranjal Pandey, Adya Shrivastava, Abhay Dixit
 - Presentation preparation – Pranjal Pandey, Adya Shrivastava, Abhay Dixit
