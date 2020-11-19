@@ -14,6 +14,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.metrics import classification_report
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 from pymongo import MongoClient
@@ -35,45 +40,66 @@ def analyse(la_df):
     target = 'offense'
     la_df_x = la_df[X_columns]
     la_df_y = la_df[target]
-    # dataset = la_df.values
-    # split data into X and y
 
     X = la_df_x.values
     X = X.astype(str)
     Y = la_df_y.values
     encoded_x = None
-    for i in range(0, X.shape[1]):
+    row = X.shape[1]
+
+    label_encoder = LabelEncoder()
+    label_encoded_y = label_encoder.fit_transform(Y)
+
+    mapping = dict(zip(label_encoder.classes_, range(1, len(label_encoder.classes_) + 1)))
+    print(mapping)
+
+    for i in range(0, row):
         label_encoder = LabelEncoder()
-        feature = label_encoder.fit_transform(X[:, i])
-        feature = feature.reshape(X.shape[0], 1)
-        onehot_encoder = OneHotEncoder(sparse=False, categories='auto')
-        feature = onehot_encoder.fit_transform(feature)
+        x_feature = label_encoder.fit_transform(X[:, i]).reshape(X.shape[0], 1)
+        o_encoder = OneHotEncoder(sparse=False, categories='auto')
+        feature = o_encoder.fit_transform(x_feature)
         if encoded_x is None:
             encoded_x = feature
         else:
             encoded_x = np.concatenate((encoded_x, feature), axis=1)
-    print("X shape: : ", encoded_x.shape)
 
-    # encode string class values as integers
-    label_encoder = LabelEncoder()
-    label_encoder = label_encoder.fit(Y)
-    label_encoded_y = label_encoder.transform(Y)
+    X_train, X_test, y_train, y_test = train_test_split(encoded_x, label_encoded_y, test_size=0.25,
+                                                        random_state=7)
 
-    # split data into train and test sets
-    seed = 7
-    test_size = 0.33
-    X_train, X_test, y_train, y_test = train_test_split(encoded_x, label_encoded_y, test_size=test_size,
-                                                        random_state=seed)
-    # fit model no training data
     model = XGBClassifier()
     model.fit(X_train, y_train)
     print(model)
-    # make predictions for test data
+
     y_pred = model.predict(X_test)
     predictions = [round(value) for value in y_pred]
-    # evaluate predictions
+
     accuracy = accuracy_score(y_test, predictions)
     print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+    labels = np.unique(y_test)
+
+    cfn = cmtx = pd.DataFrame(
+        confusion_matrix(y_test, y_pred, labels=labels),
+        index=labels,
+        columns=labels
+    )
+    #
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(cfn, annot=True, cmap="YlGnBu")
+    plt.show()
+
+    scores = cross_val_score(model, X_train, y_train, cv=5)
+    print("Mean cross-validation score: %.2f" % scores.mean())
+
+
+    kfold = KFold(n_splits=10, shuffle=True)
+    kf_cv_scores = cross_val_score(model, X_train, y_train, cv=kfold)
+    print("K-fold CV average score: %.2f" % kf_cv_scores.mean())
+
+    print(classification_report(y_test, y_pred))
+
+
+
 
 def main():
     config_file_path = '../config'
@@ -82,8 +108,10 @@ def main():
     mongo_database = connection.get_mongo_connection(mongo_connection_params)
     mongo_collection = mongo_database['city_crimes']
     la_df = getDF(mongo_collection)
-    la_df = pd.read_csv("La_clean.csv")
+    # la_df = pd.read_csv("La_clean.csv")
+    # la_df = la_df[:200000]
     analyse(la_df)
+    # perform_KNN(mongo_collection)
 
 
 
